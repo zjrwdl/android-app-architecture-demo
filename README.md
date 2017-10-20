@@ -6,7 +6,7 @@
 | Sample | Description |
 | ------------- | ------------- |
 | [mvp](https://github.com/zhhp1121/android-app-architecture-demo/tree/mvp/) |MVP架构 |
-| [mvvm](https://github.com/zhhp1121/android-app-architecture-demo/tree/mvp/) |MVVM架构 |
+| [mvvm-databinding](https://github.com/zhhp1121/android-app-architecture-demo/tree/mvp/) |MVVM架构 |
 | [mvp-rxjava](https://github.com/zhhp1121/android-app-architecture-demo/tree/mvp-rxjava/) |MVP-rxjava ---等待完成 |
 
 [天气API使用雅虎提供的免费接口](https://www.yahoo.com/news/weather/)
