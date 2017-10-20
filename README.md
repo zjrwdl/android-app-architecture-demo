@@ -29,5 +29,5 @@ git checkout mvp
 如果要查看mvvm
 
 ```
-git checkout mvvm
+git checkout mvvm-databinding
 ```
