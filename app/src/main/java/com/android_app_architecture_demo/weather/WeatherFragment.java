@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android_app_architecture_demo.R;
+import com.android_app_architecture_demo.databinding.FragmentWeatherBinding;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -25,7 +26,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Use the {@link WeatherFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WeatherFragment extends Fragment implements WeatherContract.View{
+public class WeatherFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,8 +38,9 @@ public class WeatherFragment extends Fragment implements WeatherContract.View{
 
     private OnFragmentInteractionListener mListener;
 
-    private WeatherContract.Presenter mPresenter;
+    private WeatherViewMode mViewModel;
     private TextView mWeatherInfo;
+    FragmentWeatherBinding mFragmentWeatherBinding;
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -75,9 +77,11 @@ public class WeatherFragment extends Fragment implements WeatherContract.View{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root =  inflater.inflate(R.layout.fragment_weather, container, false);
-        mWeatherInfo = (TextView) root.findViewById(R.id.weather_info);
-        Log.d("TEST","78XXXXXXXXXXXXXXXXmWeatherInfo="+mWeatherInfo);
+        mFragmentWeatherBinding = FragmentWeatherBinding.inflate(inflater,container,false);
+        mFragmentWeatherBinding.setView(this);
+        mFragmentWeatherBinding.setViewmodel(mViewModel);
+        View root = mFragmentWeatherBinding.getRoot();
+
         return root;
     }
 
@@ -123,40 +127,12 @@ public class WeatherFragment extends Fragment implements WeatherContract.View{
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        mViewModel.start();
     }
 
-    @Override
-    public void setPresenter(WeatherContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+
+    public void setViewModel(WeatherViewMode viewModel) {
+        mViewModel = viewModel;
     }
 
-    @Override
-    public void showWeather(Weather weather) {
-        StringBuilder weatherInfo = new StringBuilder();
-        weatherInfo.append(weather.getCity());
-        weatherInfo.append(": today weather is:");
-        weatherInfo.append(weather.getWeathers().get(0).toString());
-        Message message = Message.obtain(mHandler);
-        message.what = 0;
-        message.obj = weatherInfo.toString();
-        //通过handler将消息发送到主线程来更新界面
-        message.sendToTarget();
-    }
-
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 0:
-                        String weatherInfo = (String)msg.obj;
-                        mWeatherInfo.setText(weatherInfo.toString());
-                    break;
-
-                default:
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    };
 }
